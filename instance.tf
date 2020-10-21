@@ -1,6 +1,6 @@
 resource "aws_security_group" "StandartServer" {
-  name          = "SSH/HTTP/HTTPS"
-  vpc_id        = aws_vpc.main.id
+  name   = "SSH/HTTP/HTTPS"
+  vpc_id = aws_vpc.main.id
 
   ingress {
     description = "HTTP from World"
@@ -10,7 +10,7 @@ resource "aws_security_group" "StandartServer" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-    ingress {
+  ingress {
     description = "HTTPS from World"
     from_port   = 443
     to_port     = 443
@@ -18,7 +18,7 @@ resource "aws_security_group" "StandartServer" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-    ingress {
+  ingress {
     description = "SSH from World"
     from_port   = 22
     to_port     = 22
@@ -41,13 +41,14 @@ resource "aws_security_group" "StandartServer" {
 
 
 resource "aws_instance" "Server" {
-    ami                     =   data.aws_ami.latest_amazon_linux.id
-    instance_type           =   "t2.micro"
-    vpc_security_group_ids  =   [aws_security_group.StandartServer.id]
-    key_name                =   "Frankfurt-AWS"
-    subnet_id               =   "${aws_subnet.public_subnets.id}"
-    user_data               =   file("user_data.sh")
-    tags    =   {
-        Name = "${var.env}-Server"
-    }
+  ami                    = data.aws_ami.latest_amazon_linux.id
+  instance_type          = "t2.micro"
+  count                  = 3
+  vpc_security_group_ids = [aws_security_group.StandartServer.id]
+  key_name               = "Frankfurt-AWS"
+  subnet_id              = "${aws_subnet.public_subnets.id}"
+  user_data              = file("user_data.sh")
+  tags = {
+    Name = "${var.env}-Server"
+  }
 }
