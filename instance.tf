@@ -49,13 +49,14 @@ resource "aws_security_group" "StandartServer" {
 
 
 resource "aws_instance" "Server" {
-  ami                    = data.aws_ami.latest_amazon_linux.id
+  //ami                    = data.aws_ami.latest_amazon_linux.id
+  ami                    = "ami-0c960b947cbb2dd16"
   instance_type          = "t2.micro"
   count                  = 3
   vpc_security_group_ids = [aws_security_group.StandartServer.id]
   key_name               = "Frankfurt-AWS"
   subnet_id              = "${aws_subnet.public_subnets.id}"
-  user_data              = file("user_data.sh")
+  //user_data              = file("user_data.sh")
   tags = {
     Name = "${var.env}-Server"
   }
