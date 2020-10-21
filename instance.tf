@@ -46,7 +46,7 @@ resource "aws_instance" "Server" {
   //count                  = 1
   vpc_security_group_ids = [aws_security_group.StandartServer.id]
   key_name               = "Frankfurt-AWS"
-  subnet_id              = "${aws_subnet.public_subnets.id}"
+  subnet_id              = aws_subnet.public_subnets.id
   user_data              = file("user_data.sh")
   tags = {
     Name = "${var.env}-Server"
