@@ -43,7 +43,7 @@ resource "aws_security_group" "StandartServer" {
 resource "aws_instance" "Server" {
   ami                    = data.aws_ami.latest_amazon_linux.id
   instance_type          = "t2.micro"
-  count                  = 1
+  //count                  = 1
   vpc_security_group_ids = [aws_security_group.StandartServer.id]
   key_name               = "Frankfurt-AWS"
   subnet_id              = "${aws_subnet.public_subnets.id}"
